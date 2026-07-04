@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇳🇿 紐西蘭南島 14 天行程詳細地圖</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1b2a;
+    --surface: #1b2838;
+    --surface2: #243447;
+    --text: #e0e8f0;
+    --text-muted: #8899aa;
+    --accent: #f4a261;
+    --gold: #e9c46a;
+    --lake: #457b9d;
+    --forest: #2a9d8f;
+    --glacier: #a8dadc;
+    --wedding: #e5989b;
+    --day1: #e76f51;
+    --day2: #f4a261;
+    --day3: #e9c46a;
+    --day4: #2a9d8f;
+    --day5: #457b9d;
+    --day6: #e5989b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #app {
+    display: flex;
+    height: 100vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 420px;
+    min-width: 420px;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    z-index: 1000;
+  }
+
+  .sidebar-header {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .sidebar-header .subtitle {
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .sidebar-header h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sidebar-header .meta {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  /* Day tabs */
+  .day-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .day-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--surface2);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .day-tab:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .day-tab.active {
+    background: rgba(244, 162, 97, 0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .day-tab.wedding {
+    border-color: rgba(229, 152, 155, 0.3);
+  }
+
+  .day-tab.wedding.active {
+    background: rgba(229, 152, 155, 0.15);
+    border-color: var(--wedding);
+    color: var(--wedding);
+  }
+
+  /* Day detail panel */
+  .day-detail {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1.2rem;
+  }
+
+  .day-detail::-webkit-scrollbar { width: 4px; }
+  .day-detail::-webkit-scrollbar-track { background: transparent; }
+  .day-detail::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+  .day-detail-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .day-detail-empty .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .day-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .day-title.wedding-title {
+    color: var(--wedding);
+  }
+
+  .day-date-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: rgba(244, 162, 97, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .day-date-badge.wedding-badge {
+    color: var(--wedding);
+    background: rgba(229, 152, 155, 0.15);
+  }
+
+  .day-section {
+    margin-bottom: 1rem;
+  }
+
+  .day-section h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .day-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .day-section li {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    padding: 0.35rem 0;
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .day-section li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .poi-link {
+    color: var(--gold);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+
+  .poi-link:hover {
+    color: var(--accent);
+  }
+
+  .route-info {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 0.8rem;
+    margin-top: 0.8rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .route-info .arrow {
+    color: var(--accent);
+  }
+
+  /* Map container */
+  .map-container {
+    flex: 1;
+    position: relative;
+  }
+
+  #map {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Dark map tiles */
+  .leaflet-container {
+    background: #1a1a2e;
+  }
+
+  /* Custom popup */
+  .leaflet-popup-content-wrapper {
+    background: var(--surface2) !important;
+    color: var(--text) !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+  }
+
+  .leaflet-popup-tip {
+    background: var(--surface2) !important;
+  }
+
+  .leaflet-popup-content {
+    font-family: 'Noto Serif TC', 'DM Sans', sans-serif !important;
+    margin: 10px 14px !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .popup-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .popup-meta {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .popup-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .popup-day-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .tag-day1 { background: rgba(231,111,81,0.2); color: #e76f51; }
+  .tag-day2 { background: rgba(244,162,97,0.2); color: #f4a261; }
+  .tag-day3 { background: rgba(233,196,106,0.2); color: #e9c46a; }
+  .tag-day4 { background: rgba(42,157,143,0.2); color: #2a9d8f; }
+  .tag-day5 { background: rgba(69,123,157,0.2); color: #457b9d; }
+  .tag-day6 { background: rgba(229,152,155,0.2); color: #e5989b; }
+
+  /* Legend */
+  .map-legend {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: rgba(27, 40, 56, 0.92);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.7rem;
+    z-index: 1000;
+  }
+
+  .map-legend h4 {
+    font-size: 0.7rem;
+    margin-bottom: 0.4rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .legend-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    #app { flex-direction: column; }
+    .sidebar {
+      width: 100%;
+      min-width: 100%;
+      max-height: 45vh;
+    }
+    .map-container { height: 55vh; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="subtitle">New Zealand South Island</div>
+      <h2>🇳🇿 紐西蘭南島 14 天深度遊</h2>
+      <div class="meta">12月29日 — 1月11日 · 溫和觀光與徒步</div>
+    </div>
+
+    <div class="day-tabs" id="dayTabs"></div>
+
+    <div class="day-detail" id="dayDetail">
+      <div class="day-detail-empty">
+        <div class="icon">🗺️</div>
+        <p>點擊地圖上的標記<br>或選擇上方日期查看詳細行程</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div class="map-container">
+    <div id="map"></div>
+    <div class="map-legend">
+      <h4>圖例</h4>
+      <div class="legend-row"><div class="legend-icon" style="background:#f4a261"></div> 城市/城鎮</div>
+      <div class="legend-row"><div class="legend-icon" style="background:#e5989b"></div> 婚禮地點</div>
+      <div class="legend-row"><div class="legend-icon" style="background:#e9c46a"></div> 景點/地標</div>
+      <div class="legend-row"><div class="legend-icon" style="background:#2a9d8f"></div> 徒步/自然</div>
+      <div class="legend-row"><div class="legend-icon" style="background:#457b9d"></div> 湖泊/峽灣</div>
+      <div class="legend-row"><div class="legend-icon" style="background:#a8dadc"></div> 洞穴/螢火蟲</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ===== DATA =====
+const days = [
+  {
+    day: 1, date: '12/29 (Tue)', city: '蒂卡波湖', cityEn: 'Lake Tekapo',
+    title: '🏔️ 抵達蒂卡波湖',
+    sections: [
+      { title: '下午', items: ['抵達蒂卡波湖，辦理入住', '造訪 <span class="poi-link" data-poi="church">好牧羊人教堂</span>（Church of the Good Shepherd）', '欣賞蒂卡波湖標誌性的土耳其藍湖水', '湖畔漫步，夏季有機會看到盛開的魯冰花'] },
+      { title: '晚上', items: ['前往 <span class="poi-link" data-poi="tekaposprings">Tekapo Springs 溫泉</span>泡湯', '在暖呼呼的溫泉裡仰望南半球滿天星斗', '蒂卡波湖是世界頂級暗黑天空保護區'] }
+    ]
+  },
+  {
+    day: 2, date: '12/30 (Wed)', city: '蒂卡波湖', cityEn: 'Lake Tekapo',
+    title: '🏔️ 約翰山健行',
+    sections: [
+      { title: '上午', items: ['健行登上 <span class="poi-link" data-poi="mtjohn">約翰山步道</span>（Mt John Summit Track）', '難度適中，往返約 1.5-2 小時', '山頂 360 度俯瞰蒂卡波湖與亞歷山德里娜湖'] },
+      { title: '中午', items: ['山頂 <span class="poi-link" data-poi="astrocafe">Astro Café</span> 享用景觀咖啡與輕食'] },
+      { title: '下午', items: ['開車前往湖的另一側或小鎮悠閒逛街', '享受無壓力的度假節奏'] }
+    ]
+  },
+  {
+    day: 3, date: '12/31 (Thu)', city: '瓦納卡 → 皇后鎮', cityEn: 'Wanaka → Queenstown',
+    title: '🌊 途經瓦納卡，跨年夜抵達皇后鎮',
+    route: { from: '蒂卡波湖', to: '皇后鎮', via: '瓦納卡', distance: '約 3 小時車程' },
+    sections: [
+      { title: '上午', items: ['從蒂卡波湖出發，開車前往皇后鎮', '中途在 <span class="poi-link" data-poi="wanaka">瓦納卡（Wanaka）</span>停留'] },
+      { title: '下午', items: ['瓦納卡湖畔漫步', '拜訪著名的 <span class="poi-link" data-poi="wanakatree">瓦納卡孤獨樹</span>（That Wanaka Tree）', '經由風景絕美的 <span class="poi-link" data-poi="crownrange">皇冠山脈公路</span>（Crown Range Road）前往皇后鎮'] },
+      { title: '晚上', items: ['抵達皇后鎮，入住酒店', '瓦卡蒂普湖畔散步，跨年夜小鎮氣氛溫馨'] }
+    ]
+  },
+  {
+    day: 4, date: '1/1 (Fri)', city: '箭鎮', cityEn: 'Arrowtown',
+    title: '🏛️ 新年漫步箭鎮',
+    sections: [
+      { title: '下午', items: ['前往距離皇后鎮僅 20 分鐘車程的 <span class="poi-link" data-poi="arrowtown">箭鎮（Arrowtown）</span>', '漫步古老的白金漢街（Buckingham Street）', '沿著 <span class="poi-link" data-poi="arrowriver">箭河步道</span>（Arrow River Trail）輕鬆森林漫步', '欣賞 19 世紀淘金熱時期的古老建築'] }
+    ]
+  },
+  {
+    day: 5, date: '1/2 (Sat)', city: '皇后鎮', cityEn: 'Queenstown',
+    title: '🚡 俯瞰全景與極致放鬆',
+    sections: [
+      { title: '上午', items: ['搭乘 <span class="poi-link" data-poi="skyline">天空纜車</span>（Skyline Gondola）登上鮑勃峰', '俯瞰整個皇后鎮與瓦卡蒂普湖全景', '玩 <span class="poi-link" data-poi="luge">斜坡滑車</span>（Luge），速度完全由自己控制'] },
+      { title: '下午', items: ['搭乘 <span class="poi-link" data-poi="earnslaw">TSS Earnslaw 百年蒸汽船</span>巡遊瓦卡蒂普湖', '前往 <span class="poi-link" data-poi="walterpeak">瓦爾特峰高原農場</span>享用下午茶', '餵小羊、觀賞剪羊毛與牧羊犬表演'] },
+      { title: '傍晚', items: ['預訂 <span class="poi-link" data-poi="onsen">Onsen Hot Pools 景觀溫泉</span>', '在婚禮前夜徹底放鬆身心，迎接大喜之日'] }
+    ]
+  },
+  {
+    day: 6, date: '1/3 (Sun)', city: '皇后鎮', cityEn: 'Queenstown', wedding: true,
+    title: '💖 大婚之日',
+    sections: [
+      { title: '💍 Wedding Day', items: ['全天不安排任何觀光與健行', '上午：悠閒酒店早餐，新郎新娘梳化造型', '下午：舉辦婚禮儀式，雪山湖泊背景下拍攝婚紗大片', '晚上：與親友舉辦溫馨婚禮晚宴'] }
+    ]
+  },
+  {
+    day: 7, date: '1/4 (Mon)', city: '格萊諾基', cityEn: 'Glenorchy',
+    title: '🌿 魔戒森林慢步',
+    sections: [
+      { title: '上午', items: ['婚禮隔天睡到自然醒，悠閒享用早餐'] },
+      { title: '下午', items: ['開車前往 <span class="poi-link" data-poi="glenorchy">格萊諾基（Glenorchy）</span>', '沿途是被譽為世界最美景觀公路之一', '走平坦的 <span class="poi-link" data-poi="lagoon">Glenorchy Lagoon Walkway 潟湖步道</span>（約 1 小時）', '平靜如鏡的湖泊與雪山倒影，像走進中土世界童話'] }
+    ]
+  },
+  {
+    day: 8, date: '1/5 (Tue)', city: '蒂阿瑙', cityEn: 'Te Anau',
+    title: '🕯️ 酒莊品酒 → 蒂阿瑙螢火蟲',
+    route: { from: '皇后鎮', to: '蒂阿瑙', distance: '約 2 小時車程（170公里）' },
+    sections: [
+      { title: '上午', items: ['退房後前往 <span class="poi-link" data-poi="gibbston">吉布斯頓谷酒莊</span>（Gibbston Valley）', '參加溫和的酒窖導覽，品嚐頂級黑皮諾（Pinot Noir）', '在葡萄園老樹下享用浪漫芝士與紅酒午餐'] },
+      { title: '下午', items: ['開車前往蒂阿瑙，沿途欣賞南島腹地田園風光', '抵達後在蒂阿瑙湖畔散步', '造訪 <span class="poi-link" data-poi="birds">野生鳥類保護區</span>，免費觀賞紐西蘭特有瀕危鳥類'] },
+      { title: '晚上', items: ['參加 <span class="poi-link" data-poi="glowworm">蒂阿瑙藍光螢火蟲洞</span>遊船', '坐船穿過黑暗地下溶洞，靜靜欣賞頭頂上萬隻藍光螢火蟲'] }
+    ]
+  },
+  {
+    day: 9, date: '1/6 (Wed)', city: '米爾福德峽灣', cityEn: 'Milford Sound',
+    title: '🚢 世界第八大奇蹟',
+    sections: [
+      { title: '全天', items: ['從蒂阿瑙出發前往米爾福德峽灣（單程約 2 小時）', '沿途停靠 <span class="poi-link" data-poi="mirror">鏡湖 Mirror Lakes</span>（步行 5 分鐘）', '停靠 <span class="poi-link" data-poi="chasm">裂谷步道 The Chasm</span>（步行 15 分鐘）', '中午抵達峽灣，搭乘 <span class="poi-link" data-poi="milfordcruise">大型景觀遊船</span>巡遊峽灣（約 2 小時）', '近距離觀賞巨石懸崖、奔騰瀑布，尋找海豹和海豚'] }
+    ]
+  },
+  {
+    day: 10, date: '1/7 (Thu)', city: '但尼丁', cityEn: 'Dunedin',
+    title: '🏰 蘇格蘭風情歷史名城',
+    route: { from: '蒂阿瑙', to: '但尼丁', distance: '約 3.5 小時車程' },
+    sections: [
+      { title: '下午', items: ['抵達南島東海岸歷史名城但尼丁', '參觀充滿文藝復興風格的 <span class="poi-link" data-poi="railway">但尼丁火車站</span>', '漫步八角廣場（The Octagon）', '挑戰世界最陡街道 — <span class="poi-link" data-poi="baldwin">鮑德溫街</span>（Baldwin Street）'] }
+    ]
+  },
+  {
+    day: 11, date: '1/8 (Fri)', city: '奧塔哥半島', cityEn: 'Otago Peninsula',
+    title: '🐧 城堡花園與野生動物',
+    sections: [
+      { title: '上午', items: ['開車前往風景絕美的奧塔哥半島', '沿景觀公路前往 <span class="poi-link" data-poi="larnach">拉納克城堡</span>（Larnach Castle）', '紐西蘭唯一城堡，擁有得獎花園，悠閒漫步俯瞰海灣'] },
+      { title: '下午', items: ['參加 <span class="poi-link" data-poi="albatross">皇家信天翁中心</span>導覽', '或參加 <span class="poi-link" data-poi="penguin">黃眼企鵝保育導覽</span>', '非常溫和的野生動物觀察行程'] }
+    ]
+  },
+  {
+    day: 12, date: '1/9 (Sat)', city: '但尼丁 → 基督城', cityEn: 'Dunedin → Christchurch',
+    title: '🚗 北上返回基督城',
+    route: { from: '但尼丁', to: '基督城', distance: '約 4.5 小時車程' },
+    sections: [
+      { title: '全天', items: ['從但尼丁北上開回基督城', '中途在 <span class="poi-link" data-poi="oamaru">奧馬魯（Oamaru）</span>復古歷史區稍作停留', '欣賞維多利亞式白石建築', '傍晚抵達基督城入住'] }
+    ]
+  },
+  {
+    day: 13, date: '1/10 (Sun)', city: '基督城', cityEn: 'Christchurch',
+    title: '🌸 花園城市一日遊',
+    sections: [
+      { title: '上午', items: ['在 <span class="poi-link" data-poi="avon">雅芳河（Avon River）</span>體驗浪漫撐船漫遊', '身穿傳統服飾的船夫划木船穿過市區'] },
+      { title: '下午', items: ['漫步巨大的 <span class="poi-link" data-poi="gardens">基督城植物園</span>（Botanic Gardens）', '參天古樹與溫室花園', '搭乘 <span class="poi-link" data-poi="tram">復古有軌電車</span>（Tram）輕鬆環繞市區主要景點'] }
+    ]
+  },
+  {
+    day: 14, date: '1/11 (Mon)', city: '基督城', cityEn: 'Christchurch',
+    title: '✈️ 完美賦歸',
+    sections: [
+      { title: '上午', items: ['市區享用悠閒早午餐', '採購伴手禮：麥蘆卡蜂蜜、羊毛製品、Cookie Time 餅乾'] },
+      { title: '下午', items: ['前往基督城機場辦理還車', '登機，帶著滿滿的婚禮與旅遊回憶賦歸'] }
+    ]
+  }
+];
+
+// ===== POI DATA =====
+const pois = [
+  // Day 1-2: Lake Tekapo
+  { id: 'church', name: '好牧羊人教堂', nameEn: 'Church of the Good Shepherd', lat: -44.0034, lng: 170.4836, type: 'landmark', day: 1, desc: '蒂卡波湖標誌性景點，石砌小教堂搭配土耳其藍湖水背景，是紐西蘭最受歡迎的拍攝地點之一。' },
+  { id: 'tekaposprings', name: 'Tekapo Springs 溫泉', nameEn: 'Tekapo Springs', lat: -44.0080, lng: 170.4790, type: 'relax', day: 1, desc: '在暖呼呼的溫泉中仰望南半球滿天星斗，蒂卡波湖是世界頂級暗黑天空保護區。' },
+  { id: 'mtjohn', name: '約翰山步道', nameEn: 'Mt John Summit Track', lat: -43.9859, lng: 170.4640, type: 'hike', day: 2, desc: '往返約 1.5-2 小時的溫和健行步道，山頂 360 度俯瞰蒂卡波湖與亞歷山德里娜湖。' },
+  { id: 'astrocafe', name: 'Astro Café', nameEn: 'Astro Café', lat: -43.9850, lng: 170.4630, type: 'food', day: 2, desc: '位於約翰山山頂的景觀咖啡廳，被譽為全世界風景最好的咖啡廳之一。' },
+
+  // Day 3: Wanaka → Queenstown
+  { id: 'wanaka', name: '瓦納卡', nameEn: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'city', day: 3, desc: '寧靜的湖畔小鎮，以戶外活動和壯麗自然景觀聞名。' },
+  { id: 'wanakatree', name: '瓦納卡孤獨樹', nameEn: 'That Wanaka Tree', lat: -44.6970, lng: 169.1175, type: 'landmark', day: 3, desc: '生長在瓦納卡湖中的孤獨柳樹，是紐西蘭最著名的打卡景點之一。' },
+  { id: 'crownrange', name: '皇冠山脈公路', nameEn: 'Crown Range Road', lat: -44.9350, lng: 168.8200, type: 'scenic', day: 3, desc: '紐西蘭最高的主要公路，俯瞰全景極美，連接瓦納卡與皇后鎮。' },
+
+  // Day 4-7: Queenstown area
+  { id: 'arrowtown', name: '箭鎮', nameEn: 'Arrowtown', lat: -44.9385, lng: 168.8297, type: 'city', day: 4, desc: '歷史淘金小鎮，保留 19 世紀古老建築，秋天滿山金黃樹葉美不勝收。' },
+  { id: 'arrowriver', name: '箭河步道', nameEn: 'Arrow River Trail', lat: -44.9370, lng: 168.8310, type: 'hike', day: 4, desc: '沿箭河的輕鬆森林漫步，途經華人淘金者歷史遺址。' },
+  { id: 'skyline', name: '天空纜車', nameEn: 'Skyline Gondola', lat: -45.0215, lng: 168.6595, type: 'landmark', day: 5, desc: '登上鮑勃峰俯瞰皇后鎮全景，南半球最陡的纜車之一。' },
+  { id: 'luge', name: '斜坡滑車', nameEn: 'Skyline Luge', lat: -45.0205, lng: 168.6585, type: 'activity', day: 5, desc: '速度完全由自己用手煞車控制，可以慢慢滑行看風景，安全又好玩。' },
+  { id: 'earnslaw', name: 'TSS 百年蒸汽船', nameEn: 'TSS Earnslaw', lat: -45.0335, lng: 168.6605, type: 'landmark', day: 5, desc: '擁有百年歷史的蒸汽船，巡遊瓦卡蒂普湖，前往瓦爾特峰高原農場。' },
+  { id: 'walterpeak', name: '瓦爾特峰高原農場', nameEn: 'Walter Peak Farm', lat: -45.1130, lng: 168.5600, type: 'activity', day: 5, desc: '在湖畔花園散步、餵小羊、觀賞剪羊毛與牧羊犬表演，享用 BBQ 午餐或下午茶。' },
+  { id: 'onsen', name: 'Onsen 景觀溫泉', nameEn: 'Onsen Hot Pools', lat: -45.0050, lng: 168.7300, type: 'relax', day: 5, desc: '日式木桶溫泉，一邊泡溫泉一邊欣賞沙特歐瓦河谷壯麗風景。強烈建議提早預訂！' },
+  { id: 'glenorchy', name: '格萊諾基', nameEn: 'Glenorchy', lat: -44.8530, lng: 168.3810, type: 'city', day: 7, desc: '電影《魔戒》取景地，從皇后鎮開往格萊諾基的公路被譽為世界最美景觀公路之一。' },
+  { id: 'lagoon', name: '潟湖步道', nameEn: 'Glenorchy Lagoon Walkway', lat: -44.8510, lng: 168.3790, type: 'hike', day: 7, desc: '全平坦木棧道環線約 1 小時，平靜如鏡的湖泊與雪山倒影，像走進中土世界童話。' },
+
+  // Day 8: Gibbston → Te Anau
+  { id: 'gibbston', name: '吉布斯頓谷酒莊', nameEn: 'Gibbston Valley Winery', lat: -45.0200, lng: 168.9400, type: 'food', day: 8, desc: '皇后鎮著名葡萄酒產區，以頂級黑皮諾（Pinot Noir）聞名，可在葡萄園老樹下享用浪漫午餐。' },
+  { id: 'birds', name: '野生鳥類保護區', nameEn: 'Te Anau Bird Sanctuary', lat: -45.4250, lng: 167.7150, type: 'nature', day: 8, desc: '免費觀賞紐西蘭特有的瀕危鳥類，包括南秧鳥（Takahe）等稀有品種。' },
+  { id: 'glowworm', name: '藍光螢火蟲洞', nameEn: 'Te Anau Glowworm Caves', lat: -45.4200, lng: 167.7180, type: 'cave', day: 8, desc: '坐船穿過黑暗地下溶洞，靜靜欣賞頭頂上萬隻宛如銀河般的藍光螢火蟲，非常奇幻。' },
+
+  // Day 9: Milford Sound
+  { id: 'mirror', name: '鏡湖', nameEn: 'Mirror Lakes', lat: -45.0330, lng: 168.0200, type: 'nature', day: 9, desc: '米爾福德高山公路旁的短途步道（步行 5 分鐘），以完美倒影聞名。' },
+  { id: 'chasm', name: '裂谷步道', nameEn: 'The Chasm Walk', lat: -44.7180, lng: 167.9600, type: 'hike', day: 9, desc: '步行 15 分鐘，觀賞被瀑布沖刷出的獨特巨石地貌，非常壯觀。' },
+  { id: 'milfordcruise', name: '米爾福德峽灣遊船', nameEn: 'Milford Sound Cruise', lat: -44.6390, lng: 167.8980, type: 'landmark', day: 9, desc: '搭乘大型景觀遊船巡遊峽灣（約 2 小時），近距離觀賞巨石懸崖和奔騰瀑布，尋找海豹和海豚。' },
+
+  // Day 10-11: Dunedin
+  { id: 'railway', name: '但尼丁火車站', nameEn: 'Dunedin Railway Station', lat: -45.8753, lng: 170.5088, type: 'landmark', day: 10, desc: '充滿文藝復興風格的歷史建築，被譽為紐西蘭最美火車站，也是全球被拍攝最多的建築之一。' },
+  { id: 'baldwin', name: '鮑德溫街', nameEn: 'Baldwin Street', lat: -45.8497, lng: 170.5347, type: 'landmark', day: 10, desc: '健力士世界紀錄認證的世界最陡街道，坡度達 35%，挑戰步行登頂！' },
+  { id: 'larnach', name: '拉納克城堡', nameEn: 'Larnach Castle', lat: -45.8610, lng: 170.6270, type: 'landmark', day: 11, desc: '紐西蘭唯一的城堡，擁有得獎花園，可悠閒漫步並俯瞰奧塔哥海灣全景。' },
+  { id: 'albatross', name: '皇家信天翁中心', nameEn: 'Royal Albatross Centre', lat: -45.7750, lng: 170.7280, type: 'nature', day: 11, desc: '位於奧塔哥半島末端，是世界上唯一可以在大陸上觀賞皇家信天翁繁殖的地方。' },
+  { id: 'penguin', name: '黃眼企鵝保育區', nameEn: 'Penguin Place', lat: -45.8200, lng: 170.6900, type: 'nature', day: 11, desc: '溫和的野生動物觀察行程，近距離觀賞世界上最稀有的企鵝品種之一。' },
+
+  // Day 12: Oamaru
+  { id: 'oamaru', name: '奧馬魯歷史區', nameEn: 'Oamaru Victorian Precinct', lat: -45.0980, lng: 170.9710, type: 'city', day: 12, desc: '保存完好的維多利亞式白石建築群，充滿復古氛圍的歷史街區。' },
+
+  // Day 13-14: Christchurch
+  { id: 'avon', name: '雅芳河撐船', nameEn: 'Punting on the Avon', lat: -43.5300, lng: 172.6240, type: 'activity', day: 13, desc: '身穿傳統服飾的船夫划著木船帶你穿過市區，浪漫的英式撐船體驗。' },
+  { id: 'gardens', name: '基督城植物園', nameEn: 'Botanic Gardens', lat: -43.5305, lng: 172.6210, type: 'nature', day: 13, desc: '巨大的城市綠洲，擁有參天古樹、溫室花園和雅芳河畔步道，免費入場。' },
+  { id: 'tram', name: '復古有軌電車', nameEn: 'Christchurch Tram', lat: -43.5320, lng: 172.6350, type: 'activity', day: 13, desc: '搭乘復古電車輕鬆環繞市區主要景點，隨上隨下，感受花園城市的魅力。' },
+
+  // Major Cities (as POIs too)
+  { id: 'tekapo', name: '蒂卡波湖', nameEn: 'Lake Tekapo', lat: -44.0044, lng: 170.4777, type: 'city', day: 1, desc: '以土耳其藍湖水、好牧羊人教堂和暗黑天空保護區聞名的絕美小鎮。' },
+  { id: 'queenstown', name: '皇后鎮', nameEn: 'Queenstown', lat: -45.0312, lng: 168.6626, type: 'city', day: 3, desc: '紐西蘭最著名的度假勝地，被譽為「世界冒險之都」，坐落在瓦卡蒂普湖畔。💍 婚禮舉辦地！' },
+  { id: 'teanau', name: '蒂阿瑙', nameEn: 'Te Anau', lat: -45.4150, lng: 167.7180, type: 'city', day: 8, desc: '寧靜的湖畔小鎮，通往米爾福德峽灣的門戶，以螢火蟲洞聞名。' },
+  { id: 'milford', name: '米爾福德峽灣', nameEn: 'Milford Sound', lat: -44.6390, lng: 167.8980, type: 'nature', day: 9, desc: '被譽為「世界第八大奇蹟」，壯麗的峽灣景觀、陡峭懸崖和奔騰瀑布。' },
+  { id: 'dunedin', name: '但尼丁', nameEn: 'Dunedin', lat: -45.8742, lng: 170.5036, type: 'city', day: 10, desc: '南島第二大城市，充滿蘇格蘭風情、維多利亞式建築和豐富的野生動物。' },
+  { id: 'christchurch', name: '基督城', nameEn: 'Christchurch', lat: -43.5320, lng: 172.6306, type: 'city', day: 13, desc: '南島最大城市，被譽為「花園城市」，行程的起點和終點。' }
+];
+
+// ===== ICON CONFIG =====
+const typeConfig = {
+  city: { color: '#f4a261', icon: '📍', size: 16 },
+  landmark: { color: '#e9c46a', icon: '🏛️', size: 12 },
+  hike: { color: '#2a9d8f', icon: '🥾', size: 12 },
+  nature: { color: '#2a9d8f', icon: '🌿', size: 12 },
+  relax: { color: '#e5989b', icon: '♨️', size: 12 },
+  food: { color: '#e9c46a', icon: '🍷', size: 12 },
+  activity: { color: '#e9c46a', icon: '🎯', size: 12 },
+  scenic: { color: '#2a9d8f', icon: '🏞️', size: 12 },
+  cave: { color: '#a8dadc', icon: '🕯️', size: 12 }
+};
+
+// ===== CREATE CUSTOM ICONS =====
+function createIcon(type, isWedding) {
+  const cfg = typeConfig[type] || typeConfig.landmark;
+  const size = cfg.size;
+  const color = isWedding ? '#e5989b' : cfg.color;
+  const pulseClass = isWedding ? ' wedding-pulse' : '';
+
+  return L.divIcon({
+    className: 'custom-marker' + pulseClass,
+    html: `<div style="
+      width:${size}px;height:${size}px;
+      background:${color};
+      border:2px solid rgba(255,255,255,0.3);
+      border-radius:50%;
+      box-shadow:0 0 ${size/2}px ${color}88;
+      ${isWedding ? 'animation:weddingPulse 2s ease-in-out infinite;' : ''}
+    "></div>`,
+    iconSize: [size, size],
+    iconAnchor: [size/2, size/2],
+    popupAnchor: [0, -size/2]
+  });
+}
+
+// ===== INIT MAP =====
+const map = L.map('map', {
+  center: [-44.5, 170.0],
+  zoom: 7,
+  minZoom: 6,
+  maxZoom: 16,
+  zoomControl: true
+});
+
+// Dark tile layer
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+// ===== ADD POI MARKERS =====
+const markerMap = {};
+const poiGroup = L.featureGroup().addTo(map);
+
+pois.forEach(poi => {
+  const isWedding = poi.id === 'queenstown';
+  const icon = createIcon(poi.type, isWedding);
+
+  const dayTag = `<span class="popup-day-tag tag-day${Math.min(poi.day, 6)}">Day ${poi.day}</span>`;
+  const marker = L.marker([poi.lat, poi.lng], { icon })
+    .bindPopup(`
+      <div class="popup-title">${poi.name}</div>
+      <div class="popup-meta">${poi.nameEn} ${dayTag}</div>
+      <div class="popup-desc">${poi.desc}</div>
+    `);
+
+  marker.on('click', () => {
+    showDayDetail(poi.day);
+    highlightDayTab(poi.day);
+  });
+
+  marker.addTo(poiGroup);
+  markerMap[poi.id] = marker;
+});
+
+// ===== ROUTE POLYLINES =====
+const routes = [
+  { coords: [[-43.532,172.631],[-44.004,170.478]], color: '#e76f51', day: '1→2' },
+  { coords: [[-44.004,170.478],[-44.703,169.132],[-45.031,168.663]], color: '#e9c46a', day: '3' },
+  { coords: [[-45.031,168.663],[-45.415,167.718]], color: '#2a9d8f', day: '8' },
+  { coords: [[-45.415,167.718],[-44.639,167.898]], color: '#457b9d', day: '9' },
+  { coords: [[-45.415,167.718],[-45.874,170.504]], color: '#f4a261', day: '10' },
+  { coords: [[-45.874,170.504],[-45.098,170.971],[-43.532,172.631]], color: '#e5989b', day: '12' }
+];
+
+routes.forEach(r => {
+  L.polyline(r.coords, {
+    color: r.color,
+    weight: 3,
+    opacity: 0.5,
+    dashArray: '8 6',
+    className: 'route-line'
+  }).addTo(map).bindTooltip(`Day ${r.day}`, { permanent: false, direction: 'center' });
+});
+
+// ===== SIDEBAR TABS =====
+const dayTabsEl = document.getElementById('dayTabs');
+const dayDetailEl = document.getElementById('dayDetail');
+
+days.forEach(d => {
+  const tab = document.createElement('div');
+  tab.className = 'day-tab' + (d.wedding ? ' wedding' : '');
+  tab.textContent = `Day ${d.day}`;
+  tab.title = d.city;
+  tab.addEventListener('click', () => {
+    showDayDetail(d.day);
+    highlightDayTab(d.day);
+    flyToDay(d.day);
+  });
+  dayTabsEl.appendChild(tab);
+});
+
+function highlightDayTab(dayNum) {
+  document.querySelectorAll('.day-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === dayNum - 1);
+  });
+}
+
+function showDayDetail(dayNum) {
+  const d = days[dayNum - 1];
+  if (!d) return;
+
+  let html = `<div class="day-title${d.wedding ? ' wedding-title' : ''}">${d.title}</div>`;
+  html += `<div class="day-date-badge${d.wedding ? ' wedding-badge' : ''}">${d.date} · ${d.city}${d.wedding ? ' 💍 Wedding Day' : ''}</div>`;
+
+  if (d.route) {
+    html += `<div class="route-info">🚗 ${d.route.from} <span class="arrow">→</span> ${d.route.to} · ${d.route.distance}</div>`;
+  }
+
+  d.sections.forEach(s => {
+    html += `<div class="day-section"><h4>${s.title}</h4><ul>`;
+    s.items.forEach(item => {
+      html += `<li>${item}</li>`;
+    });
+    html += `</ul></div>`;
+  });
+
+  dayDetailEl.innerHTML = html;
+
+  // Bind POI links
+  dayDetailEl.querySelectorAll('.poi-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const poiId = link.dataset.poi;
+      const marker = markerMap[poiId];
+      if (marker) {
+        map.flyTo(marker.getLatLng(), 14, { duration: 1 });
+        setTimeout(() => marker.openPopup(), 600);
+      }
+    });
+  });
+}
+
+function flyToDay(dayNum) {
+  const d = days[dayNum - 1];
+  if (!d) return;
+  const dayPois = pois.filter(p => p.day === dayNum);
+  if (dayPois.length > 0) {
+    const firstPoi = dayPois[0];
+    map.flyTo([firstPoi.lat, firstPoi.lng], 10, { duration: 1 });
+  }
+}
+
+// ===== ANIMATION STYLE =====
+const styleEl = document.createElement('style');
+styleEl.textContent = `
+  @keyframes weddingPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 8px #e5989b88; }
+    50% { transform: scale(1.4); box-shadow: 0 0 18px #e5989bcc; }
+  }
+  .custom-marker { background: transparent !important; border: none !important; }
+  .route-line { animation: dashMove 20s linear infinite; }
+  @keyframes dashMove { to { stroke-dashoffset: -120; } }
+`;
+document.head.appendChild(styleEl);
+
+// ===== INITIAL STATE =====
+showDayDetail(1);
+highlightDayTab(1);
+</script>
+</body>
+</html>
