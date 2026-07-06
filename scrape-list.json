@@ -1,0 +1,98 @@
+[
+  {
+    "id": "tekapo",
+    "query": "lake-tekapo-new-zealand"
+  },
+  {
+    "id": "church",
+    "query": "church-of-the-good-shepherd-tekapo"
+  },
+  {
+    "id": "mtjohn",
+    "query": "mount-john-observatory-tekapo"
+  },
+  {
+    "id": "wanaka",
+    "query": "lake-wanaka-new-zealand"
+  },
+  {
+    "id": "wanakatree",
+    "query": "that-wanaka-tree"
+  },
+  {
+    "id": "queenstown",
+    "query": "queenstown-new-zealand"
+  },
+  {
+    "id": "arrowtown",
+    "query": "arrowtown-new-zealand"
+  },
+  {
+    "id": "skyline",
+    "query": "skyline-gondola-queenstown"
+  },
+  {
+    "id": "glenorchy",
+    "query": "glenorchy-new-zealand"
+  },
+  {
+    "id": "teanau",
+    "query": "te-anau-new-zealand"
+  },
+  {
+    "id": "glowworm",
+    "query": "te-anau-glowworm-caves"
+  },
+  {
+    "id": "milford",
+    "query": "milford-sound-new-zealand"
+  },
+  {
+    "id": "dunedin",
+    "query": "dunedin-new-zealand"
+  },
+  {
+    "id": "railway",
+    "query": "dunedin-railway-station"
+  },
+  {
+    "id": "baldwin",
+    "query": "baldwin-street-dunedin"
+  },
+  {
+    "id": "larnach",
+    "query": "larnach-castle-dunedin"
+  },
+  {
+    "id": "oamaru",
+    "query": "oamaru-new-zealand"
+  },
+  {
+    "id": "christchurch",
+    "query": "christchurch-new-zealand"
+  },
+  {
+    "id": "gardens",
+    "query": "christchurch-botanic-gardens"
+  },
+  {
+    "id": "avon",
+    "query": "avon-river-christchurch-punting"
+  },
+  {
+    "id": "gibbston",
+    "query": "gibbston-valley-winery"
+  },
+  {
+    "id": "mirror",
+    "query": "mirror-lakes-milford-sound"
+  },
+  {
+    "id": "earnslaw",
+    "query": "tss-earnslaw-steamship-queenstown"
+  },
+  {
+    "id": "onsen",
+    "query": "onsen-hot-pools-queenstown"
+  }
+]

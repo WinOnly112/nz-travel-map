@@ -1,197 +1,197 @@
-// POI Images - Multiple free image sources with fallback
-// Using Picsum (Lorem Picsum) as reliable fallback with unique seeds per POI
+// POI Images - LoremFlickr (Flickr real photos by search terms)
+// Each POI gets 3 unique images via different cache-busting seeds
 const poiImages = {
-  // Day 1-2: Lake Tekapo
+  // Day 1-2: Lake Tekapo area
   church: [
-    'https://picsum.photos/seed/tekapochurch1/600/400',
-    'https://picsum.photos/seed/tekapochurch2/600/400',
-    'https://picsum.photos/seed/tekapochurch3/600/400'
+    'https://loremflickr.com/600/400/church,good,shepherd,tekapo?random=1',
+    'https://loremflickr.com/600/400/church,good,shepherd,tekapo?random=2',
+    'https://loremflickr.com/600/400/church,good,shepherd,tekapo?random=3'
   ],
   tekaposprings: [
-    'https://picsum.photos/seed/hotsprings1/600/400',
-    'https://picsum.photos/seed/hotsprings2/600/400',
-    'https://picsum.photos/seed/hotsprings3/600/400'
+    'https://loremflickr.com/600/400/tekapo,springs,hot,pool?random=1',
+    'https://loremflickr.com/600/400/tekapo,springs,hot,pool?random=2',
+    'https://loremflickr.com/600/400/tekapo,springs,hot,pool?random=3'
   ],
   mtjohn: [
-    'https://picsum.photos/seed/mtjohn1/600/400',
-    'https://picsum.photos/seed/mtjohn2/600/400',
-    'https://picsum.photos/seed/mtjohn3/600/400'
+    'https://loremflickr.com/600/400/mount,john,observatory,tekapo?random=1',
+    'https://loremflickr.com/600/400/mount,john,observatory,tekapo?random=2',
+    'https://loremflickr.com/600/400/mount,john,observatory,tekapo?random=3'
   ],
   astrocafe: [
-    'https://picsum.photos/seed/astrocafe1/600/400',
-    'https://picsum.photos/seed/astrocafe2/600/400',
-    'https://picsum.photos/seed/astrocafe3/600/400'
+    'https://loremflickr.com/600/400/astro,cafe,mount,john?random=1',
+    'https://loremflickr.com/600/400/astro,cafe,mount,john?random=2',
+    'https://loremflickr.com/600/400/astro,cafe,mount,john?random=3'
   ],
   tekapo: [
-    'https://picsum.photos/seed/laketekapo1/600/400',
-    'https://picsum.photos/seed/laketekapo2/600/400',
-    'https://picsum.photos/seed/laketekapo3/600/400'
+    'https://loremflickr.com/600/400/lake,tekapo,new,zealand?random=1',
+    'https://loremflickr.com/600/400/lake,tekapo,new,zealand?random=2',
+    'https://loremflickr.com/600/400/lake,tekapo,new,zealand?random=3'
   ],
   // Day 3: Wanaka
   wanaka: [
-    'https://picsum.photos/seed/wanaka1/600/400',
-    'https://picsum.photos/seed/wanaka2/600/400',
-    'https://picsum.photos/seed/wanaka3/600/400'
+    'https://loremflickr.com/600/400/lake,wanaka,new,zealand?random=1',
+    'https://loremflickr.com/600/400/lake,wanaka,new,zealand?random=2',
+    'https://loremflickr.com/600/400/lake,wanaka,new,zealand?random=3'
   ],
   wanakatree: [
-    'https://picsum.photos/seed/wanakatree1/600/400',
-    'https://picsum.photos/seed/wanakatree2/600/400',
-    'https://picsum.photos/seed/wanakatree3/600/400'
+    'https://loremflickr.com/600/400/wanaka,tree,lake,willow?random=1',
+    'https://loremflickr.com/600/400/wanaka,tree,lake,willow?random=2',
+    'https://loremflickr.com/600/400/wanaka,tree,lake,willow?random=3'
   ],
   crownrange: [
-    'https://picsum.photos/seed/crownrange1/600/400',
-    'https://picsum.photos/seed/crownrange2/600/400',
-    'https://picsum.photos/seed/crownrange3/600/400'
+    'https://loremflickr.com/600/400/crown,range,road,scenic?random=1',
+    'https://loremflickr.com/600/400/crown,range,road,scenic?random=2',
+    'https://loremflickr.com/600/400/crown,range,road,scenic?random=3'
   ],
-  // Day 4-7: Queenstown
+  // Day 4-7: Queenstown area
   arrowtown: [
-    'https://picsum.photos/seed/arrowtown1/600/400',
-    'https://picsum.photos/seed/arrowtown2/600/400',
-    'https://picsum.photos/seed/arrowtown3/600/400'
+    'https://loremflickr.com/600/400/arrowtown,historic,new,zealand?random=1',
+    'https://loremflickr.com/600/400/arrowtown,historic,new,zealand?random=2',
+    'https://loremflickr.com/600/400/arrowtown,historic,new,zealand?random=3'
   ],
   arrowriver: [
-    'https://picsum.photos/seed/arrowriver1/600/400',
-    'https://picsum.photos/seed/arrowriver2/600/400',
-    'https://picsum.photos/seed/arrowriver3/600/400'
+    'https://loremflickr.com/600/400/arrow,river,trail,forest?random=1',
+    'https://loremflickr.com/600/400/arrow,river,trail,forest?random=2',
+    'https://loremflickr.com/600/400/arrow,river,trail,forest?random=3'
   ],
   skyline: [
-    'https://picsum.photos/seed/skylineq1/600/400',
-    'https://picsum.photos/seed/skylineq2/600/400',
-    'https://picsum.photos/seed/skylineq3/600/400'
+    'https://loremflickr.com/600/400/skyline,gondola,queenstown?random=1',
+    'https://loremflickr.com/600/400/skyline,gondola,queenstown?random=2',
+    'https://loremflickr.com/600/400/skyline,gondola,queenstown?random=3'
   ],
   luge: [
-    'https://picsum.photos/seed/lugeq1/600/400',
-    'https://picsum.photos/seed/lugeq2/600/400',
-    'https://picsum.photos/seed/lugeq3/600/400'
+    'https://loremflickr.com/600/400/skyline,luge,queenstown?random=1',
+    'https://loremflickr.com/600/400/skyline,luge,queenstown?random=2',
+    'https://loremflickr.com/600/400/skyline,luge,queenstown?random=3'
   ],
   earnslaw: [
-    'https://picsum.photos/seed/earnslaw1/600/400',
-    'https://picsum.photos/seed/earnslaw2/600/400',
-    'https://picsum.photos/seed/earnslaw3/600/400'
+    'https://loremflickr.com/600/400/tss,earnslaw,steamship,queenstown?random=1',
+    'https://loremflickr.com/600/400/tss,earnslaw,steamship,queenstown?random=2',
+    'https://loremflickr.com/600/400/tss,earnslaw,steamship,queenstown?random=3'
   ],
   walterpeak: [
-    'https://picsum.photos/seed/walterpeak1/600/400',
-    'https://picsum.photos/seed/walterpeak2/600/400',
-    'https://picsum.photos/seed/walterpeak3/600/400'
+    'https://loremflickr.com/600/400/walter,peak,farm,queenstown?random=1',
+    'https://loremflickr.com/600/400/walter,peak,farm,queenstown?random=2',
+    'https://loremflickr.com/600/400/walter,peak,farm,queenstown?random=3'
   ],
   onsen: [
-    'https://picsum.photos/seed/onsenqp1/600/400',
-    'https://picsum.photos/seed/onsenqp2/600/400',
-    'https://picsum.photos/seed/onsenqp3/600/400'
+    'https://loremflickr.com/600/400/onsen,hot,pool,queenstown?random=1',
+    'https://loremflickr.com/600/400/onsen,hot,pool,queenstown?random=2',
+    'https://loremflickr.com/600/400/onsen,hot,pool,queenstown?random=3'
   ],
   glenorchy: [
-    'https://picsum.photos/seed/glenorchy1/600/400',
-    'https://picsum.photos/seed/glenorchy2/600/400',
-    'https://picsum.photos/seed/glenorchy3/600/400'
+    'https://loremflickr.com/600/400/glenorchy,new,zealand,mountains?random=1',
+    'https://loremflickr.com/600/400/glenorchy,new,zealand,mountains?random=2',
+    'https://loremflickr.com/600/400/glenorchy,new,zealand,mountains?random=3'
   ],
   lagoon: [
-    'https://picsum.photos/seed/lagoon1/600/400',
-    'https://picsum.photos/seed/lagoon2/600/400',
-    'https://picsum.photos/seed/lagoon3/600/400'
+    'https://loremflickr.com/600/400/glenorchy,lagoon,walkway?random=1',
+    'https://loremflickr.com/600/400/glenorchy,lagoon,walkway?random=2',
+    'https://loremflickr.com/600/400/glenorchy,lagoon,walkway?random=3'
   ],
   queenstown: [
-    'https://picsum.photos/seed/queenstown1/600/400',
-    'https://picsum.photos/seed/queenstown2/600/400',
-    'https://picsum.photos/seed/queenstown3/600/400'
+    'https://loremflickr.com/600/400/queenstown,new,zealand,lake?random=1',
+    'https://loremflickr.com/600/400/queenstown,new,zealand,lake?random=2',
+    'https://loremflickr.com/600/400/queenstown,new,zealand,lake?random=3'
   ],
   // Day 8: Te Anau
   gibbston: [
-    'https://picsum.photos/seed/gibbston1/600/400',
-    'https://picsum.photos/seed/gibbston2/600/400',
-    'https://picsum.photos/seed/gibbston3/600/400'
+    'https://loremflickr.com/600/400/gibbston,valley,winery,vineyard?random=1',
+    'https://loremflickr.com/600/400/gibbston,valley,winery,vineyard?random=2',
+    'https://loremflickr.com/600/400/gibbston,valley,winery,vineyard?random=3'
   ],
   birds: [
-    'https://picsum.photos/seed/birdsanct1/600/400',
-    'https://picsum.photos/seed/birdsanct2/600/400',
-    'https://picsum.photos/seed/birdsanct3/600/400'
+    'https://loremflickr.com/600/400/takahe,bird,sanctuary,te,anau?random=1',
+    'https://loremflickr.com/600/400/takahe,bird,sanctuary,te,anau?random=2',
+    'https://loremflickr.com/600/400/takahe,bird,sanctuary,te,anau?random=3'
   ],
   glowworm: [
-    'https://picsum.photos/seed/glowwormc1/600/400',
-    'https://picsum.photos/seed/glowwormc2/600/400',
-    'https://picsum.photos/seed/glowwormc3/600/400'
+    'https://loremflickr.com/600/400/glowworm,caves,te,anau?random=1',
+    'https://loremflickr.com/600/400/glowworm,caves,te,anau?random=2',
+    'https://loremflickr.com/600/400/glowworm,caves,te,anau?random=3'
   ],
   teanau: [
-    'https://picsum.photos/seed/teanau1/600/400',
-    'https://picsum.photos/seed/teanau2/600/400',
-    'https://picsum.photos/seed/teanau3/600/400'
+    'https://loremflickr.com/600/400/te,anau,lake,new,zealand?random=1',
+    'https://loremflickr.com/600/400/te,anau,lake,new,zealand?random=2',
+    'https://loremflickr.com/600/400/te,anau,lake,new,zealand?random=3'
   ],
   // Day 9: Milford Sound
   mirror: [
-    'https://picsum.photos/seed/mirrorlake1/600/400',
-    'https://picsum.photos/seed/mirrorlake2/600/400',
-    'https://picsum.photos/seed/mirrorlake3/600/400'
+    'https://loremflickr.com/600/400/mirror,lakes,reflection,milford?random=1',
+    'https://loremflickr.com/600/400/mirror,lakes,reflection,milford?random=2',
+    'https://loremflickr.com/600/400/mirror,lakes,reflection,milford?random=3'
   ],
   chasm: [
-    'https://picsum.photos/seed/thechasm1/600/400',
-    'https://picsum.photos/seed/thechasm2/600/400',
-    'https://picsum.photos/seed/thechasm3/600/400'
+    'https://loremflickr.com/600/400/the,chasm,waterfall,fiordland?random=1',
+    'https://loremflickr.com/600/400/the,chasm,waterfall,fiordland?random=2',
+    'https://loremflickr.com/600/400/the,chasm,waterfall,fiordland?random=3'
   ],
   milfordcruise: [
-    'https://picsum.photos/seed/milfordc1/600/400',
-    'https://picsum.photos/seed/milfordc2/600/400',
-    'https://picsum.photos/seed/milfordc3/600/400'
+    'https://loremflickr.com/600/400/milford,sound,cruise,boat?random=1',
+    'https://loremflickr.com/600/400/milford,sound,cruise,boat?random=2',
+    'https://loremflickr.com/600/400/milford,sound,cruise,boat?random=3'
   ],
   milford: [
-    'https://picsum.photos/seed/milfords1/600/400',
-    'https://picsum.photos/seed/milfords2/600/400',
-    'https://picsum.photos/seed/milfords3/600/400'
+    'https://loremflickr.com/600/400/milford,sound,fiord,waterfall?random=1',
+    'https://loremflickr.com/600/400/milford,sound,fiord,waterfall?random=2',
+    'https://loremflickr.com/600/400/milford,sound,fiord,waterfall?random=3'
   ],
   // Day 10-11: Dunedin
   railway: [
-    'https://picsum.photos/seed/dunedinrail1/600/400',
-    'https://picsum.photos/seed/dunedinrail2/600/400',
-    'https://picsum.photos/seed/dunedinrail3/600/400'
+    'https://loremflickr.com/600/400/dunedin,railway,station,architecture?random=1',
+    'https://loremflickr.com/600/400/dunedin,railway,station,architecture?random=2',
+    'https://loremflickr.com/600/400/dunedin,railway,station,architecture?random=3'
   ],
   baldwin: [
-    'https://picsum.photos/seed/baldwinst1/600/400',
-    'https://picsum.photos/seed/baldwinst2/600/400',
-    'https://picsum.photos/seed/baldwinst3/600/400'
+    'https://loremflickr.com/600/400/baldwin,street,steepest,dunedin?random=1',
+    'https://loremflickr.com/600/400/baldwin,street,steepest,dunedin?random=2',
+    'https://loremflickr.com/600/400/baldwin,street,steepest,dunedin?random=3'
   ],
   larnach: [
-    'https://picsum.photos/seed/larnachc1/600/400',
-    'https://picsum.photos/seed/larnachc2/600/400',
-    'https://picsum.photos/seed/larnachc3/600/400'
+    'https://loremflickr.com/600/400/larnach,castle,dunedin,garden?random=1',
+    'https://loremflickr.com/600/400/larnach,castle,dunedin,garden?random=2',
+    'https://loremflickr.com/600/400/larnach,castle,dunedin,garden?random=3'
   ],
   albatross: [
-    'https://picsum.photos/seed/albatross1/600/400',
-    'https://picsum.photos/seed/albatross2/600/400',
-    'https://picsum.photos/seed/albatross3/600/400'
+    'https://loremflickr.com/600/400/royal,albatross,otago,peninsula?random=1',
+    'https://loremflickr.com/600/400/royal,albatross,otago,peninsula?random=2',
+    'https://loremflickr.com/600/400/royal,albatross,otago,peninsula?random=3'
   ],
   penguin: [
-    'https://picsum.photos/seed/penguin1/600/400',
-    'https://picsum.photos/seed/penguin2/600/400',
-    'https://picsum.photos/seed/penguin3/600/400'
+    'https://loremflickr.com/600/400/yellow,eyed,penguin,new,zealand?random=1',
+    'https://loremflickr.com/600/400/yellow,eyed,penguin,new,zealand?random=2',
+    'https://loremflickr.com/600/400/yellow,eyed,penguin,new,zealand?random=3'
   ],
   dunedin: [
-    'https://picsum.photos/seed/dunedin1/600/400',
-    'https://picsum.photos/seed/dunedin2/600/400',
-    'https://picsum.photos/seed/dunedin3/600/400'
+    'https://loremflickr.com/600/400/dunedin,new,zealand,city?random=1',
+    'https://loremflickr.com/600/400/dunedin,new,zealand,city?random=2',
+    'https://loremflickr.com/600/400/dunedin,new,zealand,city?random=3'
   ],
   // Day 12: Oamaru
   oamaru: [
-    'https://picsum.photos/seed/oamaru1/600/400',
-    'https://picsum.photos/seed/oamaru2/600/400',
-    'https://picsum.photos/seed/oamaru3/600/400'
+    'https://loremflickr.com/600/400/oamaru,victorian,stone,building?random=1',
+    'https://loremflickr.com/600/400/oamaru,victorian,stone,building?random=2',
+    'https://loremflickr.com/600/400/oamaru,victorian,stone,building?random=3'
   ],
   // Day 13-14: Christchurch
   avon: [
-    'https://picsum.photos/seed/avonriver1/600/400',
-    'https://picsum.photos/seed/avonriver2/600/400',
-    'https://picsum.photos/seed/avonriver3/600/400'
+    'https://loremflickr.com/600/400/avon,river,punting,christchurch?random=1',
+    'https://loremflickr.com/600/400/avon,river,punting,christchurch?random=2',
+    'https://loremflickr.com/600/400/avon,river,punting,christchurch?random=3'
   ],
   gardens: [
-    'https://picsum.photos/seed/chchgarden1/600/400',
-    'https://picsum.photos/seed/chchgarden2/600/400',
-    'https://picsum.photos/seed/chchgarden3/600/400'
+    'https://loremflickr.com/600/400/christchurch,botanic,gardens,flower?random=1',
+    'https://loremflickr.com/600/400/christchurch,botanic,gardens,flower?random=2',
+    'https://loremflickr.com/600/400/christchurch,botanic,gardens,flower?random=3'
   ],
   tram: [
-    'https://picsum.photos/seed/chchtram1/600/400',
-    'https://picsum.photos/seed/chchtram2/600/400',
-    'https://picsum.photos/seed/chchtram3/600/400'
+    'https://loremflickr.com/600/400/christchurch,tram,heritage?random=1',
+    'https://loremflickr.com/600/400/christchurch,tram,heritage?random=2',
+    'https://loremflickr.com/600/400/christchurch,tram,heritage?random=3'
   ],
   christchurch: [
-    'https://picsum.photos/seed/christchurch1/600/400',
-    'https://picsum.photos/seed/christchurch2/600/400',
-    'https://picsum.photos/seed/christchurch3/600/400'
+    'https://loremflickr.com/600/400/christchurch,new,zealand,city?random=1',
+    'https://loremflickr.com/600/400/christchurch,new,zealand,city?random=2',
+    'https://loremflickr.com/600/400/christchurch,new,zealand,city?random=3'
   ],
 };
