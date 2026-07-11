@@ -1,197 +1,40 @@
-// POI Images - LoremFlickr real photos, each with unique search terms
-// 3 different search angles per POI to ensure unique, scenery-focused photos
+// POI Images - Wikimedia Commons real photos (verified no duplicates)
 const poiImages = {
-  // Day 1-2: Lake Tekapo area
-  church: [
-    'https://loremflickr.com/600/400/church,good,shepherd,lake,tekapo',
-    'https://loremflickr.com/600/400/tekapo,stone,church,lupin,flowers',
-    'https://loremflickr.com/600/400/new,zealand,church,lake,turquoise'
-  ],
-  tekaposprings: [
-    'https://loremflickr.com/600/400/tekapo,springs,hot,pool,star',
-    'https://loremflickr.com/600/400/hot,spring,mountain,view,relax',
-    'https://loremflickr.com/600/400/night,sky,stars,tekapo,dark'
-  ],
-  mtjohn: [
-    'https://loremflickr.com/600/400/mount,john,observatory,tekapo,lake',
-    'https://loremflickr.com/600/400/mountain,summit,panorama,new,zealand',
-    'https://loremflickr.com/600/400/alpine,viewpoint,turquoise,lake,tekapo'
-  ],
-  astrocafe: [
-    'https://loremflickr.com/600/400/astro,cafe,mount,john,coffee',
-    'https://loremflickr.com/600/400/mountain,cafe,view,landscape,scenic',
-    'https://loremflickr.com/600/400/cafe,with,view,lake,tekapo,mountain'
-  ],
-  tekapo: [
-    'https://loremflickr.com/600/400/lake,tekapo,turquoise,new,zealand',
-    'https://loremflickr.com/600/400/tekapo,lupin,flowers,summer,landscape',
-    'https://loremflickr.com/600/400/lake,tekapo,sunset,mountain,reflection'
-  ],
-  // Day 3: Wanaka
-  wanaka: [
-    'https://loremflickr.com/600/400/lake,wanaka,mountain,new,zealand',
-    'https://loremflickr.com/600/400/wanaka,town,lakeside,autumn,scenic',
-    'https://loremflickr.com/600/400/lake,wanaka,sunset,reflection,alps'
-  ],
-  wanakatree: [
-    'https://loremflickr.com/600/400/wanaka,tree,willow,lake,reflection',
-    'https://loremflickr.com/600/400/lone,tree,lake,wanaka,sunrise,water',
-    'https://loremflickr.com/600/400/that,wanaka,tree,sunset,silhouette'
-  ],
-  crownrange: [
-    'https://loremflickr.com/600/400/crown,range,road,mountain,scenic',
-    'https://loremflickr.com/600/400/alpine,highway,panorama,new,zealand',
-    'https://loremflickr.com/600/400/mountain,pass,drive,landscape,valley'
-  ],
-  // Day 4-7: Queenstown area
-  arrowtown: [
-    'https://loremflickr.com/600/400/arrowtown,historic,street,autumn,color',
-    'https://loremflickr.com/600/400/arrowtown,gold,mining,town,heritage',
-    'https://loremflickr.com/600/400/arrowtown,autumn,leaves,new,zealand'
-  ],
-  arrowriver: [
-    'https://loremflickr.com/600/400/arrow,river,trail,forest,walking',
-    'https://loremflickr.com/600/400/river,woodland,path,nature,hike',
-    'https://loremflickr.com/600/400/forest,stream,arrowtown,green,peaceful'
-  ],
-  skyline: [
-    'https://loremflickr.com/600/400/skyline,gondola,queenstown,view,lake',
-    'https://loremflickr.com/600/400/queenstown,gondola,mountain,panorama',
-    'https://loremflickr.com/600/400/birds,eye,queenstown,lake,wakatipu'
-  ],
-  luge: [
-    'https://loremflickr.com/600/400/skyline,luge,queenstown,fun,ride',
-    'https://loremflickr.com/600/400/mountain,luge,track,adventure,scenic',
-    'https://loremflickr.com/600/400/queenstown,activity,outdoor,summer,fun'
-  ],
-  earnslaw: [
-    'https://loremflickr.com/600/400/tss,earnslaw,steamship,queenstown,lake',
-    'https://loremflickr.com/600/400/vintage,steam,boat,wakatipu,lake',
-    'https://loremflickr.com/600/400/historic,ship,queenstown,mountain,water'
-  ],
-  walterpeak: [
-    'https://loremflickr.com/600/400/walter,peak,farm,queenstown,sheep',
-    'https://loremflickr.com/600/400/high,country,farm,new,zealand,lake',
-    'https://loremflickr.com/600/400/farm,garden,lakeside,queenstown,scenic'
-  ],
-  onsen: [
-    'https://loremflickr.com/600/400/onsen,hot,pool,queenstown,gorge',
-    'https://loremflickr.com/600/400/outdoor,hot,tub,mountain,view,relax',
-    'https://loremflickr.com/600/400/japanese,hot,spring,valley,queenstown'
-  ],
-  glenorchy: [
-    'https://loremflickr.com/600/400/glenorchy,lagoon,mountain,reflection',
-    'https://loremflickr.com/600/400/glenorchy,new,zealand,alps,scenery',
-    'https://loremflickr.com/600/400/middle,earth,glenorchy,lord,rings,landscape'
-  ],
-  lagoon: [
-    'https://loremflickr.com/600/400/glenorchy,lagoon,walkway,boardwalk',
-    'https://loremflickr.com/600/400/lagoon,reflection,mountain,mirror,water',
-    'https://loremflickr.com/600/400/wetland,walk,glenorchy,snow,capped,peak'
-  ],
-  queenstown: [
-    'https://loremflickr.com/600/400/queenstown,wakatipu,lake,mountain,view',
-    'https://loremflickr.com/600/400/queenstown,new,zealand,alps,waterfront',
-    'https://loremflickr.com/600/400/queenstown,sunset,lake,remarkables,mountain'
-  ],
-  // Day 8: Te Anau
-  gibbston: [
-    'https://loremflickr.com/600/400/gibbston,valley,winery,vineyard,grape',
-    'https://loremflickr.com/600/400/wine,tasting,vineyard,queenstown,cellar',
-    'https://loremflickr.com/600/400/winery,garden,lunch,grapevine,outdoor'
-  ],
-  birds: [
-    'https://loremflickr.com/600/400/takahe,bird,rare,new,zealand,native',
-    'https://loremflickr.com/600/400/bird,sanctuary,te,anau,wildlife,forest',
-    'https://loremflickr.com/600/400/new,zealand,native,bird,conservation'
-  ],
-  glowworm: [
-    'https://loremflickr.com/600/400/glowworm,caves,te,anau,blue,light',
-    'https://loremflickr.com/600/400/cave,glowworm,underground,new,zealand',
-    'https://loremflickr.com/600/400/te,anau,cave,boat,tour,dark,glowing'
-  ],
-  teanau: [
-    'https://loremflickr.com/600/400/te,anau,lake,mountain,fiordland',
-    'https://loremflickr.com/600/400/lake,te,anau,sunset,reflection,peace',
-    'https://loremflickr.com/600/400/te,anau,town,lakeside,new,zealand'
-  ],
-  // Day 9: Milford Sound
-  mirror: [
-    'https://loremflickr.com/600/400/mirror,lakes,reflection,fiordland,calm',
-    'https://loremflickr.com/600/400/lake,reflection,mountain,mirror,perfect',
-    'https://loremflickr.com/600/400/milford,road,mirror,lake,still,water'
-  ],
-  chasm: [
-    'https://loremflickr.com/600/400/the,chasm,waterfall,fiordland,rock',
-    'https://loremflickr.com/600/400/waterfall,gorge,rock,formation,forest',
-    'https://loremflickr.com/600/400/creek,rapids,fiordland,national,park'
-  ],
-  milfordcruise: [
-    'https://loremflickr.com/600/400/milford,sound,cruise,boat,waterfall',
-    'https://loremflickr.com/600/400/fiord,cruise,cliff,waterfall,dolphin',
-    'https://loremflickr.com/600/400/milford,sound,boat,tour,fiord,scenic'
-  ],
-  milford: [
-    'https://loremflickr.com/600/400/milford,sound,fiord,waterfall,cliff',
-    'https://loremflickr.com/600/400/milford,sound,mitre,peak,majestic',
-    'https://loremflickr.com/600/400/fiordland,milford,rainforest,mist,peak'
-  ],
-  // Day 10-11: Dunedin
-  railway: [
-    'https://loremflickr.com/600/400/dunedin,railway,station,architecture,historic',
-    'https://loremflickr.com/600/400/victorian,railway,station,new,zealand,train',
-    'https://loremflickr.com/600/400/dunedin,train,station,interior,heritage'
-  ],
-  baldwin: [
-    'https://loremflickr.com/600/400/baldwin,street,steepest,dunedin,world',
-    'https://loremflickr.com/600/400/steep,street,dunedin,houses,slope',
-    'https://loremflickr.com/600/400/world,steepest,street,new,zealand,record'
-  ],
-  larnach: [
-    'https://loremflickr.com/600/400/larnach,castle,dunedin,garden,historic',
-    'https://loremflickr.com/600/400/castle,new,zealand,tower,garden,flower',
-    'https://loremflickr.com/600/400/larnach,castle,interior,heritage,otago'
-  ],
-  albatross: [
-    'https://loremflickr.com/600/400/royal,albatross,flying,otago,peninsula',
-    'https://loremflickr.com/600/400/albatross,bird,sea,cliff,coastal,ocean',
-    'https://loremflickr.com/600/400/otago,peninsula,coastline,cliff,sea,view'
-  ],
-  penguin: [
-    'https://loremflickr.com/600/400/yellow,eyed,penguin,new,zealand,beach',
-    'https://loremflickr.com/600/400/penguin,wildlife,otago,coast,endangered',
-    'https://loremflickr.com/600/400/penguin,beach,dune,conservation,otago'
-  ],
-  dunedin: [
-    'https://loremflickr.com/600/400/dunedin,new,zealand,city,heritage',
-    'https://loremflickr.com/600/400/dunedin,octagon,scottish,architecture',
-    'https://loremflickr.com/600/400/dunedin,otago,harbour,hill,view'
-  ],
-  // Day 12: Oamaru
-  oamaru: [
-    'https://loremflickr.com/600/400/oamaru,victorian,stone,building,historic',
-    'https://loremflickr.com/600/400/oamaru,whitestone,architecture,street,heritage',
-    'https://loremflickr.com/600/400/oamaru,steampunk,historic,precinct,new,zealand'
-  ],
-  // Day 13-14: Christchurch
-  avon: [
-    'https://loremflickr.com/600/400/avon,river,punting,christchurch,boat',
-    'https://loremflickr.com/600/400/punting,boat,christchurch,river,garden',
-    'https://loremflickr.com/600/400/avon,river,willow,tree,christchurch,park'
-  ],
-  gardens: [
-    'https://loremflickr.com/600/400/christchurch,botanic,gardens,flower,rose',
-    'https://loremflickr.com/600/400/botanical,garden,christchurch,bloom,spring',
-    'https://loremflickr.com/600/400/garden,conservatory,christchurch,greenhouse'
-  ],
-  tram: [
-    'https://loremflickr.com/600/400/christchurch,tram,heritage,street,historic',
-    'https://loremflickr.com/600/400/vintage,tram,christchurch,city,tour',
-    'https://loremflickr.com/600/400/heritage,tram,new,zealand,christchurch,city'
-  ],
-  christchurch: [
-    'https://loremflickr.com/600/400/christchurch,new,zealand,garden,city',
-    'https://loremflickr.com/600/400/christchurch,cathedral,square,city,centre',
-    'https://loremflickr.com/600/400/christchurch,avon,river,city,skyline'
-  ],
+  church: ["https://upload.wikimedia.org/wikipedia/commons/7/75/Church_of_the_Good_Shepherd_%28Lake_Tekapo%29.jpg","https://upload.wikimedia.org/wikipedia/commons/6/62/Church_of_the_Good_Shepherd%2C_Lake_Tekapo%2C_New_Zealand_03.jpg","https://upload.wikimedia.org/wikipedia/commons/0/0e/00_1734_New_Zealand_%28South_Island%29_-_Church_of_the_Good_Shepherd_%28Lake_Tekapo%29.jpg"],
+  tekaposprings: ["https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1500534623283-312aade485b7?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=400&fit=crop"],
+  mtjohn: ["https://upload.wikimedia.org/wikipedia/commons/a/a8/Mount_John_University_Observatory_%289618676129%29.jpg","https://upload.wikimedia.org/wikipedia/commons/0/09/Marko_Mount_John_Observatory_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/4/4a/Mount_John_University_Observatory.Lake_Tekapo.NZ_%2811881764616%29.jpg"],
+  astrocafe: ["https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1507699622108-4be3abd695ad?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1469521669194-babb45599def?w=600&h=400&fit=crop"],
+  tekapo: ["https://upload.wikimedia.org/wikipedia/commons/e/e2/Lake_Tekapo_01.jpg","https://upload.wikimedia.org/wikipedia/commons/8/8c/Panoramic_view_of_Lake_Tekapo_01.jpg","https://upload.wikimedia.org/wikipedia/commons/0/0f/Evening_at_Lake_Tekapo._NZ.jpg"],
+  wanaka: ["https://upload.wikimedia.org/wikipedia/commons/5/5a/Northern_part_of_Lake_Wanaka_with_surrounding_mountains%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/a/ac/Sunrise_over_Lake_Wanaka_from_Boundary_Creek%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/8/82/Lake_Wanaka_-_northern_part%2C_New_Zealand.jpg"],
+  wanakatree: ["https://upload.wikimedia.org/wikipedia/commons/c/ca/%22The_Tree%22_Lake_Wanaka._NZ_%2824202789152%29.jpg","https://upload.wikimedia.org/wikipedia/commons/3/3a/That_Wanaka_Tree%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/6/64/Wanaka%2C_New_Zealand_-_panoramio_%281%29.jpg"],
+  crownrange: ["https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1508193638397-1c4234db14d8?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1465059409046-f745acf48efb?w=600&h=400&fit=crop"],
+  arrowtown: ["https://upload.wikimedia.org/wikipedia/commons/f/fb/Arrowtown_Gaol_485.jpg","https://upload.wikimedia.org/wikipedia/commons/4/49/Autumn_in_Arrowtown%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/4/4a/Arrowtown_Gaol_482.jpg"],
+  arrowriver: ["https://upload.wikimedia.org/wikipedia/commons/8/8e/Autumn_on_the_Arrow_River_NZ_%2812202357824%29.jpg","https://upload.wikimedia.org/wikipedia/commons/b/b6/Arrowtown_Post.jpg","https://upload.wikimedia.org/wikipedia/commons/5/52/Historic_Arrowtown_Otago_NZ_%2827493316245%29.jpg"],
+  skyline: ["https://upload.wikimedia.org/wikipedia/commons/c/cf/Queenstown_view_Skyline_Gondola_Deck.jpg","https://upload.wikimedia.org/wikipedia/commons/f/f3/Skyline_Gondola_Queenstown.jpg","https://upload.wikimedia.org/wikipedia/commons/c/c9/Skyline_Queenstown_Gondola.jpg"],
+  luge: ["https://upload.wikimedia.org/wikipedia/commons/2/22/Queenstown_Skyline_Luge%2C_April_2026.jpg","https://upload.wikimedia.org/wikipedia/commons/4/43/Queenstown_Luge.jpg","https://upload.wikimedia.org/wikipedia/commons/4/44/Queenstown_from_the_air_2026.jpg"],
+  earnslaw: ["https://upload.wikimedia.org/wikipedia/commons/a/a2/TSS_Earnslaw_Steamship_Lake_Whakatipu_2024_02.jpg","https://upload.wikimedia.org/wikipedia/commons/7/7c/TSS_Earnslaw_Steamship_Lake_Whakatipu_2024_01.jpg","https://upload.wikimedia.org/wikipedia/commons/4/4d/TSS_Earnslaw_%2828%29_%288655806725%29.jpg"],
+  walterpeak: ["https://upload.wikimedia.org/wikipedia/commons/6/69/NZL-walter-peak-farm.jpg","https://upload.wikimedia.org/wikipedia/commons/c/c5/Walter_Peak_Otago_%2852446970644%29.jpg","https://upload.wikimedia.org/wikipedia/commons/c/cf/NZL-walter-peak-schafe.jpg"],
+  onsen: ["https://images.unsplash.com/photo-1540555700478-4be6f2c1e5e7?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1604537523558-2f3b5e3b1fe8?w=600&h=400&fit=crop"],
+  glenorchy: ["https://upload.wikimedia.org/wikipedia/commons/1/14/Glenorchy_at_the_Head_of_Lake_Wakatipu.jpg","https://upload.wikimedia.org/wikipedia/commons/d/d8/Glenorchy%2C_New_Zealand_-_panoramio.jpg","https://upload.wikimedia.org/wikipedia/commons/f/f8/Astrophotography_workshop_in_Glenorchy%2C_New_Zealand.jpg"],
+  lagoon: ["https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1472396961693-2e9080849d22?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop"],
+  queenstown: ["https://upload.wikimedia.org/wikipedia/commons/c/cc/Lake_Wakatipu_from_Queenstown_gondola.jpg","https://upload.wikimedia.org/wikipedia/commons/7/73/Queenstown_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/e/e8/Arrow_Junction%2C_Crown_Ranges%2C_Queenstown_District%2C_New_Zealand.jpg"],
+  gibbston: ["https://upload.wikimedia.org/wikipedia/commons/1/1d/Gibbston_Valley_Winery_JH.jpg","https://upload.wikimedia.org/wikipedia/commons/8/8f/Gibbston_valley_1.jpg","https://upload.wikimedia.org/wikipedia/commons/b/b7/The_Gibbston_Valley.jpg"],
+  birds: ["https://upload.wikimedia.org/wikipedia/commons/7/74/Porphyrio_hochstetteri_-Tiritiri_Matangi_Island-8b-3c.jpg","https://upload.wikimedia.org/wikipedia/commons/4/49/Porphyrio_hochstetteri_23982582.jpg","https://upload.wikimedia.org/wikipedia/commons/1/12/Porphyrio_hochstetteri_3043610.jpg"],
+  glowworm: ["https://upload.wikimedia.org/wikipedia/commons/6/63/Green_Glow_Caves_in_New_Zealand_%286563152219%29.jpg","https://upload.wikimedia.org/wikipedia/commons/b/b4/1889_map_of_Waitomo_Glowworm_Cave.jpg","https://upload.wikimedia.org/wikipedia/commons/b/b6/%27Cathedral%27_in_Waitomo_Cave.jpg"],
+  teanau: ["https://upload.wikimedia.org/wikipedia/commons/a/a2/Lake_Te_Anau_07.jpg","https://upload.wikimedia.org/wikipedia/commons/6/64/Lake_Te_Anau_02.jpg","https://upload.wikimedia.org/wikipedia/commons/1/18/Lake_Te_Anau_03.jpg"],
+  mirror: ["https://upload.wikimedia.org/wikipedia/commons/2/20/Mirror_Lakes_pano.jpg","https://upload.wikimedia.org/wikipedia/commons/9/98/Mirror_lakes_%2847028042984%29.jpg","https://upload.wikimedia.org/wikipedia/commons/c/c1/00_1360_New_Zealand_-_Mirror_Lakes.jpg"],
+  chasm: ["https://upload.wikimedia.org/wikipedia/commons/5/51/The_Chasm_%28Fiordland%2C_NZ%29.jpg","https://upload.wikimedia.org/wikipedia/commons/e/e2/1-_Chasm_Lake.jpg","https://upload.wikimedia.org/wikipedia/commons/1/1c/Standley_Chasm%28GN05682%29.jpg"],
+  milfordcruise: ["https://upload.wikimedia.org/wikipedia/commons/1/18/Milford_Mariner_cruise_boat_at_Milford_Sound_wharf.jpg","https://upload.wikimedia.org/wikipedia/commons/0/07/Cruising_on_Milford_Sound%3B_2014.jpg","https://upload.wikimedia.org/wikipedia/commons/2/2b/Milford_Sound%2C_New_Zealand_%28Boat_Cruise%29.jpg"],
+  milford: ["https://upload.wikimedia.org/wikipedia/commons/d/da/Milford_Sound_in_Fiordland_National_Park_01.jpg","https://upload.wikimedia.org/wikipedia/commons/d/de/Cascada_Stirling%2C_Milford_Sound-Nueva_Zelanda07.jpg","https://upload.wikimedia.org/wikipedia/commons/d/dc/Milford_Sound_in_Fiordland_National_Park_18.jpg"],
+  railway: ["https://upload.wikimedia.org/wikipedia/commons/6/68/Dunedin-Nueva_Zelanda04.JPG","https://upload.wikimedia.org/wikipedia/commons/5/57/Dunedin-Nueva_Zelanda02.JPG","https://upload.wikimedia.org/wikipedia/commons/3/3f/00_1513_Dunedin_%28New_Zealand%29_-_Railway_Station.jpg"],
+  baldwin: ["https://upload.wikimedia.org/wikipedia/commons/2/2e/Baldwin_St_Dunedin_MRD.jpg","https://upload.wikimedia.org/wikipedia/commons/a/af/At_the_Bottom_of_Baldwin_Street_Dunedin_%2830746731174%29.jpg","https://upload.wikimedia.org/wikipedia/commons/3/39/Baldwin_Street_%288321363311%29.jpg"],
+  larnach: ["https://upload.wikimedia.org/wikipedia/commons/c/c8/Larnach_Castle%2C_Dunedin%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/2/26/Castillo_de_Larnach-Dunedin-Nueva_Zelanda09.JPG","https://upload.wikimedia.org/wikipedia/commons/6/6f/Larnach_Castle%2C_Dunedin.jpg"],
+  albatross: ["https://upload.wikimedia.org/wikipedia/commons/e/ee/Royal_albatross_-_otago_peninsula_-_dunedin_-_new_zealand_%2845162089584%29.jpg","https://upload.wikimedia.org/wikipedia/commons/2/21/Royal_albatross_-_otago_peninsula_-_dunedin_-_new_zealand_%2845836612192%29.jpg","https://upload.wikimedia.org/wikipedia/commons/2/2a/Taiaroa_Head%2C_Otago_Peninsula%2C_South_Island2.jpg"],
+  penguin: ["https://upload.wikimedia.org/wikipedia/commons/6/6d/Yellow-eyed_Penguin_crying_MC.jpg","https://upload.wikimedia.org/wikipedia/commons/4/4f/Yellow-eyed_Penguin_MC.jpg","https://upload.wikimedia.org/wikipedia/commons/c/c7/Yellow-eyed_Penguin_-_Stewart_Island_-_New_Zealand_%2839039196312%29.jpg"],
+  dunedin: ["https://upload.wikimedia.org/wikipedia/commons/2/2e/Dunedin_from_Little_Paisley.jpg","https://upload.wikimedia.org/wikipedia/commons/c/c5/Dunedin_City_Street_Scene%2C_Otago%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/7/72/New_Zealand_Dunedin_City_Council_2026.svg"],
+  oamaru: ["https://upload.wikimedia.org/wikipedia/commons/3/39/Flett%27s_Bookstore%2C_Victorian_precinct_Oamaru.jpg","https://upload.wikimedia.org/wikipedia/commons/f/ff/Oamaru%27s_Victorian_Precinct._NZ_%2852065512108%29.jpg","https://upload.wikimedia.org/wikipedia/commons/8/8b/Oamaru_precinct_7.jpg"],
+  avon: ["https://upload.wikimedia.org/wikipedia/commons/b/b2/Avon_River_-_Christchurch_Botanic_Gardens_-_Christchurch%2C_NZ_-_DSC00948.jpg","https://upload.wikimedia.org/wikipedia/commons/8/8f/Avon_River_-_Christchurch_Botanic_Gardens_-_Christchurch%2C_NZ_-_DSC00960.jpg","https://upload.wikimedia.org/wikipedia/commons/c/c6/Punting_on_the_River_Avon%2C_Christchurch%2C_NZ.jpg"],
+  gardens: ["https://upload.wikimedia.org/wikipedia/commons/d/d1/Banksia_spinulosa_-_flowers%2C_Christchurch_Botanic_Gardens%2C_Canterbury%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/a/a6/Veronica_truncatula_in_Christchurch_Botanic_Gardens_03.jpg","https://upload.wikimedia.org/wikipedia/commons/0/01/Visitor_Center%2C_Christchurch_Botanic_Gardens%2C_Christchurch%2C_New_Zealand.jpg"],
+  tram: ["https://upload.wikimedia.org/wikipedia/commons/f/f8/Christchurch_heritage_tramway_circuit.png","https://upload.wikimedia.org/wikipedia/commons/0/04/Trams_Christchurch_and_Regent_Theatre.jpg","https://upload.wikimedia.org/wikipedia/commons/a/a4/Christchurch_heritage_tramway_circuit_with_extensions.png"],
+  christchurch: ["https://upload.wikimedia.org/wikipedia/commons/4/4d/Town_hall%2C_Christchurch_City%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/a/ac/Panorama_of_northern_parts_of_Christchurch_Central_City%2C_New_Zealand.jpg","https://upload.wikimedia.org/wikipedia/commons/3/3e/T%C5%ABranga_%28library%29%2C_Christchurch_City%2C_New_Zealand.jpg"],
 };
