@@ -249,6 +249,20 @@
     color: var(--accent);
   }
 
+  /* Search button in popup */
+  .poi-search-btn {
+    width: 100%;
+    padding: 6px 12px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .poi-search-btn:hover { background: #d35400; }
+
   /* Map container */
   .map-container {
     flex: 1;
@@ -646,6 +660,7 @@ pois.forEach(poi => {
       <div class="popup-title">${poi.name}</div>
       <div class="popup-meta">${poi.nameEn} ${dayTag}</div>
       <div class="popup-desc">${poi.desc}</div>
+      <div style="margin-top:8px"><button class="poi-search-btn" onclick="event.stopPropagation();window.open('https://www.google.com/search?q=${encodeURIComponent(poi.nameEn)}+${encodeURIComponent(poi.name)}&tbm=isch','_blank')">🔍 Google 搜尋圖片與資訊</button></div>
     `);
 
   marker.on('click', () => {
